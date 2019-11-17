@@ -1,9 +1,10 @@
 # Autofill for Microsoft Office documents
-Autofill fields in Microsoft Office documents with (user) data from AzureAD
+Autofill fields in Microsoft Office documents with (user) data from AzureAD.
+Currently, only Word is supported, but adding support for other applications should not be too much work. Feel free to create an issue for this or create a pull request.
 
 ## How to use
 ### For developers
-#### Fields
+#### Fields in the document
 Fill the field tag of the Content Control object. The tag should match one of the following:
 * Contact information - Physical
   * StreetAddress
@@ -23,10 +24,23 @@ Fill the field tag of the Content Control object. The tag should match one of th
   * DisplayName
   * FirstName
   * LastName
-
+  
 #### Device configuration
+* Sync the library that contains the PowerShell script for the autofill
 * Set trusted locations for the template files (https://github.com/wiseleaf23/microsoft-device-management/tree/master/Microsoft%20Office%20client%20apps)
 * Exclude the location that contains the template files via Windows Defender, or sign the template files (signing has not been tested yet)
+
+#### VBA in the document
+You should add the following lines of VBA to your document:
+```vb
+Sub AutoNew()
+ strCommand = "Powershell -ExecutionPolicy ByPass -WindowStyle Hidden -File ""%UserProfile%\<AAD name>\<synced library>\Autofill-Fields.ps1"""
+    Set WshShell = CreateObject("WScript.Shell")
+    Set WshShellExec = WshShell.Exec(strCommand)
+    Set WshShellExec = WshShell.Exec(strCommand)
+End Sub
+```
+Replace `<AAD name>\<synced library>` with the path to the synced SharePoint library. If the location is not a synced SharePoint library, you should replace the entire path. I recommend storing the PowerShell script in the same library as the templates and making this read only. This way, you can easily update the templates and the code.
 
 ### For end-users
 Please note the following:
