@@ -34,10 +34,10 @@ Fill the field tag of the Content Control object. The tag should match one of th
 You should add the following lines of VBA to your document:
 ```vb
 Sub AutoNew()
- strCommand = "Powershell -ExecutionPolicy ByPass -WindowStyle Hidden -File ""%UserProfile%\<AAD name>\<synced library>\Autofill-Fields.ps1"""
-    Set WshShell = CreateObject("WScript.Shell")
-    Set WshShellExec = WshShell.Exec(strCommand)
-    Set WshShellExec = WshShell.Exec(strCommand)
+    strCommand = "Powershell -ExecutionPolicy ByPass -WindowStyle Hidden -File ""%UserProfile%\<AAD name>\<synced library>\Autofill-Fields.ps1"""
+    Set objShell = CreateObject("WScript.Shell")
+    strErrorCode = objShell.Run(strCommand, 0, True)
+    strErrorCode = objShell.Run(strCommand, 0, False)
 End Sub
 ```
 Replace `<AAD name>\<synced library>` with the path to the synced SharePoint library. If the location is not a synced SharePoint library, you should replace the entire path. I recommend storing the PowerShell script in the same library as the templates and making this read only. This way, you can easily update the templates and the code.
