@@ -10,59 +10,39 @@
     <Brief description of parameter input required. Repeat this attribute if required>
 
 .INPUTS
-  <Inputs if any, otherwise state None>
+  None
 
 .OUTPUTS
-  <Outputs if any, otherwise state None - example: Log file stored in C:\Windows\Temp\<name>.log>
+  None
 
 .NOTES
-  Version:          1.0
+  Version:          1.1
   Template version: 1.3
-  Author:           <Name>
-  Creation Date:    <Date>
-  Purpose/Change:   Initial script development 
+  Author:           Axel Timmermans
+  Creation Date:    2019
+  Purpose/Change:   Updated script formatting - Initial script development 
   
 .EXAMPLE
-  <Example explanation goes here>
-  
-  <Example goes here. Repeat this attribute for more than one example>
+  Use readme.md to deploy, embed in Word Template with macro's
 
 #>
 
 #region Parameters-----------------------------------------------------------------------------------------
-
+<#
 Param (
     #Parameters go here
 )
-
+#>
 #endregion-------------------------------------------------------------------------------------------------
 
 #region Initializations------------------------------------------------------------------------------------
-
-
-
 #endregion-------------------------------------------------------------------------------------------------
 
 #region Declarations---------------------------------------------------------------------------------------
-
-
-
 #endregion-------------------------------------------------------------------------------------------------
 
 #region Functions------------------------------------------------------------------------------------------
 
-
-
-#endregion-------------------------------------------------------------------------------------------------
-
-
-#region Execution------------------------------------------------------------------------------------------
-
-
-
-#endregion-------------------------------------------------------------------------------------------------
-
-#region Functions
 Function Get-UserPrincipalName {
     #Version 1.1, catch has been modified
     try{
@@ -80,7 +60,11 @@ Function Get-UserPrincipalName {
         Exit
     }
 }
-#endregion
+
+#endregion-------------------------------------------------------------------------------------------------
+
+
+#region Execution------------------------------------------------------------------------------------------
 
 #Get AAD module
     $PackageProvider = Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue | Where-Object {$_.Version -ge 2.8}
@@ -91,7 +75,7 @@ Function Get-UserPrincipalName {
     if(!$AADModule){
         Install-Module -Name AzureAd -Scope CurrentUser -Force -Confirm:$false
     }
-
+    
 #Connect with and get values from AAD. Disconnect after done
     $UPN = Get-UserPrincipalName
     Connect-AzureAD -AccountId $UPN
@@ -198,3 +182,5 @@ Function Get-UserPrincipalName {
             }
         }
     }
+
+#endregion-------------------------------------------------------------------------------------------------
